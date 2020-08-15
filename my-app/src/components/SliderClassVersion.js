@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const sliderThumbStyles = (props) => (`
   width: 25px;
@@ -41,12 +41,19 @@ const Styles = styled.div`
   }
 `;
 
-export default (props) => {
-    const [curValue, setCurValue] = useState(50)
-    return(
-        <Styles opacity={curValue > 10 ? (curValue / 255) : .1} color={props.color}>
-            <input className="slider" type="range" min={0} max={255} value={curValue} onChange={e => setCurValue(e.target.value)} />
-            <div className="value">{curValue}</div>
-        </Styles>
+export default class SliderClassVersion extends React.Component {
+  state = {
+    value: 50
+  }
+
+  handleOnChange = (e) => this.setState({ value: e.target.value })
+
+  render() {
+    return (
+      <Styles opacity={this.state.value > 10 ? (this.state.value / 255) : .1} color={this.props.color}>
+        <input type="range" min={0} max={255} value={this.state.value} className="slider" onChange={this.handleOnChange} />
+        <div className="value">{this.state.value}</div>
+      </Styles>
     )
+  }
 }
